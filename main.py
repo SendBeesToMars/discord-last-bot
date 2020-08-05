@@ -16,7 +16,7 @@ async def on_voice_state_update(member: discord.Member, before, after):
     global FLAG
     
     # gets role
-    role =              discord.utils.get(member.guild.roles, name="last role")
+    role =              discord.utils.get(member.guild.roles, name="the last")
     
     # gets channel
     general_channel =   discord.utils.get(bot.get_all_channels(), name="gen")
@@ -31,15 +31,12 @@ async def on_voice_state_update(member: discord.Member, before, after):
         if len(before.channel.members) == 0:
             print(member.name)  
             FLAG = False
-            await general_channel.send(f"<@{member.id}> hehe :)")
+            await general_channel.send(f"<@{member.id}> hehe")
             # removes role from everyone 
-            for m in member.guild.members:
-                try:
-                    await m.remove_roles(role)
-                except:
-                    print("Couldn't remove role")
+            for member in role.members:
+                await member.remove_roles(role)
             # sets role to last to leave
-            await member.set_roles(role)
+            await member.add_roles(role)
                 
 
 if __name__ == "__main__":
